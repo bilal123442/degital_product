@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile App Development | BilalTech Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fff;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Hero Section */
+        .product-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+        
+        .product-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .product-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        /* Product Details */
+        .product-details {
+            padding: 80px 0;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .product-image img {
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        
+        .product-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .product-content p {
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 18px;
+        }
+        
+        .features-list {
+            margin: 30px 0;
+            list-style: none;
+        }
+        
+        .features-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .features-list i {
+            color: var(--primary);
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        /* Platforms Section */
+        .platforms {
+            background-color: #f8fafc;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .platforms h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: var(--dark);
+        }
+        
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .platform-card {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .platform-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .platform-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        /* CTA Section */
+        .product-cta {
+            padding: 80px 0;
+            text-align: center;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .product-cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .product-cta p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .cta-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .btn-light {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .btn-light:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .btn-outline-light {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-hero h1 {
+                font-size: 36px;
+            }
+            
+            .product-hero p {
+                font-size: 18px;
+            }
+            
+            .product-content h2 {
+                font-size: 30px;
+            }
+            
+            .cta-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">BilalTech</a>
+                <a href="#contact" class="btn">Contact Us</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="container">
+            <h1>Mobile App Development</h1>
+            <p>Custom design for iOS and Android platforms with seamless performance and intuitive interfaces.</p>
+            <a href="#contact" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Product Details -->
+    <section class="product-details">
+        <div class="container">
+            <div class="product-grid">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mobile App Development">
+                </div>
+                <div class="product-content">
+                    <h2>Transform Your Business With Mobile Technology</h2>
+                    <p>Our expert team creates custom mobile applications that deliver exceptional user experiences while meeting your specific business requirements.</p>
+                    <p>Whether you need a native iOS, Android, or cross-platform solution, we have the expertise to bring your vision to life.</p>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Custom UI/UX design tailored to your brand</li>
+                        <li><i class="fas fa-check"></i> Native iOS (Swift) and Android (Kotlin) development</li>
+                        <li><i class="fas fa-check"></i> Cross-platform solutions with Flutter or React Native</li>
+                        <li><i class="fas fa-check"></i> API integration and backend services</li>
+                        <li><i class="fas fa-check"></i> Rigorous testing and quality assurance</li>
+                        <li><i class="fas fa-check"></i> App Store and Google Play deployment</li>
+                    </ul>
+                    
+                    <a href="#contact" class="btn">Request a Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platforms Section -->
+    <section class="platforms">
+        <div class="container">
+            <h2>Our Mobile Development Platforms</h2>
+            <div class="platform-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3>iOS Development</h3>
+                    <p>Native apps built with Swift for all Apple devices including iPhone and iPad.</p>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <h3>Android Development</h3>
+                    <p>High-performance Android apps developed with Kotlin for all devices.</p>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Cross-Platform</h3>
+                    <p>Single codebase solutions with Flutter or React Native for both platforms.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="product-cta" id="contact">
+        <div class="container">
+            <h2>Ready to Build Your Mobile App?</h2>
+            <p>Contact our team today to discuss your project requirements and get a free consultation.</p>
+            <div class="cta-btns">
+                <a href="tel:+21292376279" class="btn btn-light"><i class="fas fa-phone-alt"></i> Call Us</a>
+                <a href="mailto:info@bilaltech.com" class="btn btn-outline-light"><i class="fas fa-envelope"></i> Email Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <a href="index.html" class="footer-logo">BilalTech</a>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="#services">Services</a>
+                <a href="#team">Our Team</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <p class="copyright">&copy; 2023 BilalTech Solutions. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

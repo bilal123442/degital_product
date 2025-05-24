@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Services - Graphic Design & Digital Marketing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+        
+        .divider {
+            height: 2px;
+            background-color: var(--gray);
+            margin: 40px 0;
+            opacity: 0.3;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            text-align: center;
+            padding: 120px 0;
+        }
+        
+        .hero h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Service Card Styles */
+        .service-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-card h3 {
+            margin-bottom: 15px;
+        }
+        
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        /* Feature List */
+        .feature-list {
+            list-style-type: none;
+            margin: 30px 0;
+        }
+        
+        .feature-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: var(--secondary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Service Table */
+        .service-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+        }
+        
+        .service-table th, .service-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .service-table th {
+            background-color: var(--light);
+            color: var(--primary);
+        }
+        
+        .service-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* Stats Section */
+        .stats {
+            background-color: var(--light);
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            display: inline-block;
+            margin: 0 30px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column ul {
+            list-style-type: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Design&Market</div>
+                <div class="nav-links">
+                    <a href="#graphic-design">Graphic Design</a>
+                    <a href="#digital-marketing">Digital Marketing</a>
+                    <a href="#services">Services</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Professional Design & Marketing Solutions</h1>
+            <p>Elevate your brand with our comprehensive design and digital marketing services tailored to your business needs.</p>
+            <a href="#contact" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Graphic Design Section -->
+    <section id="graphic-design" class="container">
+        <h1>Graphic Design</h1>
+        <p>Credible visual solutions including branding, logo design, and marketing materials that make your business stand out.</p>
+        <button id="graphicDesignBtn" class="btn">Get Started</button>
+        
+        <div class="divider"></div>
+        
+        <h2>Elevate Your Brand With Stunning Visuals</h2>
+        <p>In a crowded marketplace, strong visual identity is essential for creating a memorable impression to start growth. Our digital services help you communicate your brand's personality and values through compelling visuals.</p>
+        <p>We create beautiful designs that align with both social engagement and fair value online while meeting your business objectives.</p>
+        
+        <ul class="feature-list">
+            <li>Unique brand identity development</li>
+            <li>International logo design</li>
+            <li>Marketing material creation</li>
+            <li>Visual market graphics</li>
+            <li>Social and digital content</li>
+            <li>Comprehensive brand guidelines</li>
+        </ul>
+        
+        <button id="consultationBtn" class="btn btn-accent">Request Consultation</button>
+        
+        <div class="divider"></div>
+        
+        <h2>Our Graphic Design Services</h2>
+        <table class="service-table">
+            <tr>
+                <th>Brand Identity</th>
+                <th>Print Design</th>
+                <th>Advertising</th>
+                <th>Social Media</th>
+            </tr>
+            <tr>
+                <td>Complete branding package including logo, color scheme, and typography.</td>
+                <td>Business cards, brochures, flyers, and other printed materials.</td>
+                <td>Stunning visuals for both digital and print advertisements.</td>
+                <td>Custom graphics for all your social media platforms.</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- Digital Marketing Section -->
+    <section id="digital-marketing" class="container">
+        <h1>Digital Marketing</h1>
+        <p>We help companies improve their online presence across the world. It's our ultimate focus and conference.</p>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">20%</div>
+                <div class="stat-label">Average ROI Increase</div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h2>Grow Your Business With Our Digital Marketing Expertise</h2>
+        <p>In today's world, digital marketing is stronger than ever, and the foundation for creating competitive solutions that are critical to the digital management industry. We have experience with diverse categories of brands to deliver financial results for your business.</p>
+        
+        <ul class="feature-list">
+            <li>Team with proven work experience and strong work ethos</li>
+            <li>We have experienced the success of our customers</li>
+            <li>We have mastered creative processes</li>
+            <li>Growing strength and scope of services</li>
+            <li>We have developed a new culture of innovation</li>
+            <li>We continue to thrive in digital transformation</li>
+        </ul>
+        
+        <div class="divider"></div>
+        
+        <h2>Our Digital Marketing Services</h2>
+        <table class="service-table">
+            <tr>
+                <th>SEO</th>
+                <th>PPC Advertising</th>
+                <th>Social Media</th>
+                <th>Email Marketing</th>
+            </tr>
+            <tr>
+                <td>Search engine optimization services to improve your online visibility</td>
+                <td>Pay-per-click advertising for your products, including display media</td>
+                <td>Comprehensive social media marketing strategies</td>
+                <td>Effective email campaigns to grow your products and services</td>
+            </tr>
+        </table>
+        
+        <h3>Content Marketing</h3>
+        <p>Strategic content creation and distribution to attract and retain customers.</p>
+        
+        <div class="divider"></div>
+        
+        <h2>Proven Digital Marketing Results</h2>
+        <p><em>Source: Our Digital Marketing Research and Analytics</em></p>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Design&Market</h3>
+                    <p>Professional design and digital marketing services to help your business grow.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#graphic-design">Graphic Design</a></li>
+                        <li><a href="#digital-marketing">Digital Marketing</a></li>
+                        <li><a href="#">Brand Strategy</a></li>
+                        <li><a href="#">Web Development</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Business Ave, City</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@designmarket.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Design&Market. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Graphic Design Button
+        document.getElementById('graphicDesignBtn').addEventListener('click', function() {
+            alert('Thank you for your interest in our Graphic Design services! Our team will contact you shortly.');
+        });
+        
+        // Consultation Button
+        document.getElementById('consultationBtn').addEventListener('click', function() {
+            alert('Please provide your contact details for a consultation. We will reach out to schedule a meeting.');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
