@@ -2,7 +2,7 @@ name: Auto-Generate Articles with DeepSeek (OpenRouter)
 on:
   schedule:
     - cron: '0 12 * * *'  # Daily at 12 PM UTC
-  workflow_dispatch:      # Manual trigger option
+  workflow_dispatch:      # Manual trigger
 
 jobs:
   generate_article:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install jq (JSON processor)
+      - name: Install jq
         run: sudo apt-get install -y jq
 
       - name: Generate Article via OpenRouter
@@ -23,29 +23,24 @@ jobs:
             -H "HTTP-Referer: https://github.com/$GITHUB_REPOSITORY" \
             -H "X-Title: GitHub Articles Bot" \
             -d '{
-              "model": "deepseek-ai/deepseek-chat",
+              "model": "deepseek/deepseek-chat",  # ✅ CORRECT MODEL ID
               "messages": [{
                 "role": "user",
-                "content": "Write a 1000-word tech article in Markdown format with:\n1. A main title starting with \"# \"\n2. Three subheadings (\"## \")\n3. Bullet points\n4. Focus on AI advancements in 2024"
+                "content": "Write a 1000-word tech article in Markdown with:\n1. A title starting with \"# \"\n2. Three \"## \" subheadings\n3. Bullet points\n4. Focus on AI in 2024"
               }]
             }')
 
-          # Validate API response
+          # Validate response
           if ! echo "$RESPONSE" | jq -e '.choices[0].message.content' > /dev/null; then
             echo "❌ API Error: $RESPONSE"
             exit 1
           fi
 
-          # Extract and format content
+          # Save article
           CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
           TITLE=$(echo "$CONTENT" | grep -m1 '^# ' | sed 's/# //g' | tr ' ' '-' | tr -dc '[:alnum:]-')
-          DATE=$(date +%Y-%m-%d)
-          FILENAME="articles/$DATE-$TITLE.md"
-
-          # Save file
           mkdir -p articles
-          echo "$CONTENT" > "$FILENAME"
-          echo "✅ Generated: $FILENAME"
+          echo "$CONTENT" > "articles/$(date +%Y-%m-%d)-$TITLE.md"
 
       - name: Commit & Push
         run: |
