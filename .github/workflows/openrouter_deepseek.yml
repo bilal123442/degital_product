@@ -1,0 +1,39 @@
+name: Auto-Generate Articles with DeepSeek (via OpenRouter)
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Daily at 12 PM UTC
+  workflow_dispatch:      # Manual trigger
+
+jobs:
+  generate_article:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Article via OpenRouter (DeepSeek Model)
+        run: |
+          RESPONSE=$(curl -s https://openrouter.ai/api/v1/chat/completions \
+            -H "Authorization: Bearer ${{ secrets.OPENROUTER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -H "HTTP-Referer: https://github.com/your-repo" \  # OpenRouter requires this
+            -H "X-Title: GitHub Articles Bot" \                # Identify your app
+            -d '{
+              "model": "deepseek-ai/deepseek-chat",  # DeepSeek model via OpenRouter
+              "messages": [{
+                "role": "user",
+                "content": "Write a 1000-word tech article in Markdown. Use '# Title', '## Subheadings', and bullet points. Focus on AI trends."
+              }]
+            }')
+          # Process response
+          CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
+          TITLE=$(echo "$CONTENT" | grep -m1 '^# ' | sed 's/# //g' | tr ' ' '-' | tr -d '[:punct:]')
+          DATE=$(date +%Y-%m-%d)
+          echo "$CONTENT" > "articles/$DATE-$TITLE.md"
+
+      - name: Commit & Push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Auto-generated article: $TITLE"
+          git push
