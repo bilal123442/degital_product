@@ -1,8 +1,8 @@
-name: Auto-Generate Articles with DeepSeek (via OpenRouter)
+name: Auto-Generate Articles with DeepSeek (OpenRouter)
 on:
   schedule:
     - cron: '0 12 * * *'  # Daily at 12 PM UTC
-  workflow_dispatch:      # Manual trigger
+  workflow_dispatch:      # Manual trigger option
 
 jobs:
   generate_article:
@@ -10,30 +10,47 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate Article via OpenRouter (DeepSeek Model)
+      - name: Install jq (JSON processor)
+        run: sudo apt-get install -y jq
+
+      - name: Generate Article via OpenRouter
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          RESPONSE=$(curl -s https://openrouter.ai/api/v1/chat/completions \
-            -H "Authorization: Bearer ${{ secrets.OPENROUTER_API_KEY }}" \
+          RESPONSE=$(curl -s -X POST https://openrouter.ai/api/v1/chat/completions \
+            -H "Authorization: Bearer $OPENROUTER_API_KEY" \
             -H "Content-Type: application/json" \
-            -H "HTTP-Referer: https://github.com/your-repo" \  # OpenRouter requires this
-            -H "X-Title: GitHub Articles Bot" \                # Identify your app
+            -H "HTTP-Referer: https://github.com/$GITHUB_REPOSITORY" \
+            -H "X-Title: GitHub Articles Bot" \
             -d '{
-              "model": "deepseek-ai/deepseek-chat",  # DeepSeek model via OpenRouter
+              "model": "deepseek-ai/deepseek-chat",
               "messages": [{
                 "role": "user",
-                "content": "Write a 1000-word tech article in Markdown. Use '# Title', '## Subheadings', and bullet points. Focus on AI trends."
+                "content": "Write a 1000-word tech article in Markdown format with:\n1. A main title starting with \"# \"\n2. Three subheadings (\"## \")\n3. Bullet points\n4. Focus on AI advancements in 2024"
               }]
             }')
-          # Process response
+
+          # Validate API response
+          if ! echo "$RESPONSE" | jq -e '.choices[0].message.content' > /dev/null; then
+            echo "❌ API Error: $RESPONSE"
+            exit 1
+          fi
+
+          # Extract and format content
           CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
-          TITLE=$(echo "$CONTENT" | grep -m1 '^# ' | sed 's/# //g' | tr ' ' '-' | tr -d '[:punct:]')
+          TITLE=$(echo "$CONTENT" | grep -m1 '^# ' | sed 's/# //g' | tr ' ' '-' | tr -dc '[:alnum:]-')
           DATE=$(date +%Y-%m-%d)
-          echo "$CONTENT" > "articles/$DATE-$TITLE.md"
+          FILENAME="articles/$DATE-$TITLE.md"
+
+          # Save file
+          mkdir -p articles
+          echo "$CONTENT" > "$FILENAME"
+          echo "✅ Generated: $FILENAME"
 
       - name: Commit & Push
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "Auto-generated article: $TITLE"
+          git commit -m "Auto-generated article: $(date +%Y-%m-%d)"
           git push
