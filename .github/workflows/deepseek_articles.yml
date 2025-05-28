@@ -1,0 +1,60 @@
+name: Auto-Generate Articles with DeepSeek-R1
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Daily at 12 PM UTC
+  workflow_dispatch:      # Manual trigger
+
+jobs:
+  generate_article:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Generate Article via OpenRouter
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          # Properly formatted JSON payload
+          JSON_PAYLOAD=$(cat <<EOF
+          {
+            "model": "deepseek/deepseek-r1-0528",
+            "messages": [
+              {
+                "role": "user",
+                "content": "Write a 1000-word tech article in Markdown with:\\n1. Title starting with \\\"# \\\"\\n2. Three \\\"## \\\" subheadings\\n3. Bullet points\\n4. Focus on AI in 2024"
+              }
+            ]
+          }
+          EOF
+          )
+
+          RESPONSE=$(curl -s -X POST https://openrouter.ai/api/v1/chat/completions \
+            -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -H "HTTP-Referer: https://github.com/$GITHUB_REPOSITORY" \
+            -H "X-Title: GitHub Articles Bot" \
+            -d "$JSON_PAYLOAD")
+
+          # Validate response
+          if ! echo "$RESPONSE" | jq -e '.choices[0].message.content' > /dev/null; then
+            echo "❌ API Error: $RESPONSE"
+            exit 1
+          fi
+
+          # Save article
+          CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
+          TITLE=$(echo "$CONTENT" | grep -m1 '^# ' | sed 's/# //g' | tr ' ' '-' | tr -dc '[:alnum:]-')
+          mkdir -p articles
+          echo "$CONTENT" > "articles/$(date +%Y-%m-%d)-$TITLE.md"
+          echo "✅ Generated: articles/$(date +%Y-%m-%d)-$TITLE.md"
+
+      - name: Commit & Push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Auto-generated article: $(date +%Y-%m-%d)"
+          git push
